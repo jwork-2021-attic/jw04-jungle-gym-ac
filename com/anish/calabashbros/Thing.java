@@ -22,7 +22,7 @@ public class Thing {
 
     Thing(Color color, char glyph, World world) {
         this.color = color;
-        this.glyph = glyph;
+        this.glyph = glyph;  //字形
         this.world = world;
     }
 

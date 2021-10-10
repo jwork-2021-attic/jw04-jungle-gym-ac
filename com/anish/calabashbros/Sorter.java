@@ -1,7 +1,7 @@
 package com.anish.calabashbros;
 
-public interface Sorter<T extends Comparable<T>> {
-    public void load(T[] elements);
+public interface Sorter<T extends Creature&Comparable<T>> {
+    public void load(Matrix<T> a);
 
     public void sort();
 

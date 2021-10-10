@@ -4,16 +4,14 @@ import java.awt.Color;
 
 public class Calabash extends Creature implements Comparable<Calabash> {
 
-    private int rank;
+    
 
     public Calabash(Color color, int rank, World world) {
         super(color, (char) 2, world);
         this.rank = rank;
     }
 
-    public int getRank() {
-        return this.rank;
-    }
+   
 
     @Override
     public String toString() {
@@ -22,6 +20,7 @@ public class Calabash extends Creature implements Comparable<Calabash> {
 
     @Override
     public int compareTo(Calabash o) {
+        //System.out.println(this.rank+"><="+o.rank);
         return Integer.valueOf(this.rank).compareTo(Integer.valueOf(o.rank));
     }
 
