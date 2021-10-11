@@ -1,13 +1,17 @@
 package com.anish.calabashbros;
+import com.anish.calabashbros.maze.Maze;
 
 public class World {
 
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 20;
-
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 30;
+    public Maze maze;
     private Tile<Thing>[][] tiles;
 
+
     public World() {
+
+        maze=new Maze(WIDTH,HEIGHT);
 
         if (tiles == null) {
             tiles = new Tile[WIDTH][HEIGHT];
@@ -16,9 +20,14 @@ public class World {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 tiles[i][j] = new Tile<>(i, j);
-                tiles[i][j].setThing(new Floor(this));
+                if(maze.isFloor(i, j))
+                    tiles[i][j].setThing(new Floor(this));
+                else
+                    tiles[i][j].setThing(new Wall(this));
             }
         }
+        tiles[maze.getEndX()][maze.getEndY()].setThing(new EndPointFloor(this));  //change the Floor of the endPoint
+
     }
 
     public Thing get(int x, int y) {

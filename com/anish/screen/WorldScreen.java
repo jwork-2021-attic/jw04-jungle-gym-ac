@@ -3,62 +3,23 @@ package com.anish.screen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import com.anish.calabashbros.BubbleSorter;
 import com.anish.calabashbros.Calabash;
 import com.anish.calabashbros.World;
+import com.anish.calabashbros.Floor;
+import com.anish.calabashbros.WalkedFloor;
 
 import asciiPanel.AsciiPanel;
 
 public class WorldScreen implements Screen {
 
     private World world;
-    private Calabash[] bros;
-    String[] sortSteps;
+    private Calabash bro;
 
     public WorldScreen() {
         world = new World();
-
-        bros = new Calabash[7];
-
-        bros[3] = new Calabash(new Color(204, 0, 0), 1, world);
-        bros[5] = new Calabash(new Color(255, 165, 0), 2, world);
-        bros[1] = new Calabash(new Color(252, 233, 79), 3, world);
-        bros[0] = new Calabash(new Color(78, 154, 6), 4, world);
-        bros[4] = new Calabash(new Color(50, 175, 255), 5, world);
-        bros[6] = new Calabash(new Color(114, 159, 207), 6, world);
-        bros[2] = new Calabash(new Color(173, 127, 168), 7, world);
-
-        world.put(bros[0], 10, 10);
-        world.put(bros[1], 12, 10);
-        world.put(bros[2], 14, 10);
-        world.put(bros[3], 16, 10);
-        world.put(bros[4], 18, 10);
-        world.put(bros[5], 20, 10);
-        world.put(bros[6], 22, 10);
-
-        BubbleSorter<Calabash> b = new BubbleSorter<>();
-        b.load(bros);
-        b.sort();
-
-        sortSteps = this.parsePlan(b.getPlan());
-    }
-
-    private String[] parsePlan(String plan) {
-        return plan.split("\n");
-    }
-
-    private void execute(Calabash[] bros, String step) {
-        String[] couple = step.split("<->");
-        getBroByRank(bros, Integer.parseInt(couple[0])).swap(getBroByRank(bros, Integer.parseInt(couple[1])));
-    }
-
-    private Calabash getBroByRank(Calabash[] bros, int rank) {
-        for (Calabash bro : bros) {
-            if (bro.getRank() == rank) {
-                return bro;
-            }
-        }
-        return null;
+        bro = new Calabash(Color.green,world);
+        world.put(bro, world.maze.getStartX(), world.maze.getStartY());
+        
     }
 
     @Override
@@ -77,13 +38,36 @@ public class WorldScreen implements Screen {
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {
-
-        if (i < this.sortSteps.length) {
-            this.execute(bros, sortSteps[i]);
-            i++;
+        switch (key.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                if(bro.getX()>0 && ( world.get(bro.getX()-1, bro.getY()) instanceof Floor) ){
+                    world.put(new WalkedFloor(world),bro.getX(),bro.getY());
+                    bro.moveTo(bro.getX()-1, bro.getY());
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if(bro.getX()<World.WIDTH-1 && ( world.get(bro.getX()+1, bro.getY()) instanceof Floor) ){
+                    world.put(new WalkedFloor(world),bro.getX(),bro.getY());
+                    bro.moveTo(bro.getX()+1, bro.getY());
+                }
+                break;
+            case KeyEvent.VK_UP:
+                if(bro.getY()>0 && ( world.get(bro.getX(), bro.getY()-1) instanceof Floor)){
+                    world.put(new WalkedFloor(world),bro.getX(),bro.getY());
+                    bro.moveTo(bro.getX(), bro.getY()-1);
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if(bro.getY()<World.HEIGHT+1 && ( world.get(bro.getX(), bro.getY()+1) instanceof Floor)){
+                    world.put(new WalkedFloor(world),bro.getX(),bro.getY());
+                    bro.moveTo(bro.getX(), bro.getY()+1);
+                }
+                break;
         }
-
+    
+        if(world.maze.getEndX()==bro.getX()&& world.maze.getEndY()==bro.getY()){
+            return new RestartScreen();
+        }
         return this;
     }
-
 }

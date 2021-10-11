@@ -32,10 +32,12 @@ public class Thing {
         return this.color;
     }
 
-    private final char glyph;
+    private char glyph;
 
     public char getGlyph() {
         return this.glyph;
     }
+
+   
 
 }

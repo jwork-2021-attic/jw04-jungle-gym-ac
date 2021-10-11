@@ -4,8 +4,10 @@ import java.awt.Color;
 
 public class Floor extends Thing {
 
-    Floor(World world) {
-        super(Color.gray, (char) 250, world);
+    public Floor(World world) {
+        super(Color.gray, (char) 63, world);
     }
-
+    public Floor(Color color, char glyph,World world){
+        super(color,glyph,world);
+    }
 }
