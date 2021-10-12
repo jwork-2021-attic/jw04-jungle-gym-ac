@@ -3,7 +3,7 @@ package com.anish.calabashbros;
 public class World {
 
     public static final int WIDTH = 100;
-    public static final int HEIGHT = 100;
+    public static final int HEIGHT = 70;
 
     private Tile<Thing>[][] tiles;
 

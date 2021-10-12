@@ -45,7 +45,7 @@ public class WorldScreen implements Screen {
             blue=r.nextInt(256);
             bros[i][j]=new Calabash(new Color(red,green,blue),random,world);
             
-            world.put(bros[i][j],6*i+5,6*j+5);
+            world.put(bros[i][j],4*i+20,4*j+5);
         }
 
         matrix=new Matrix<>(16,16,bros);
